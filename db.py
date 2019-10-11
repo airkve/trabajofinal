@@ -1,5 +1,5 @@
 import mysql.connector
-from dbconf import dbconf
+from dbdata import dbconf
 from mysql.connector import Error
 from mysql.connector import errorcode
 
@@ -32,9 +32,16 @@ class Database():
         
     def crear_usuario(self, data_usuario):
         self.modificar_db(self.agregar_usuario, data_usuario)
+    
+    def consultar_usuario(self, userid):
+        self.cursor.execute('SELECT * FROM usuarios')
 
     def consulta_db(self, query, consulta):
         self.cursor.execute(query, consulta)
         
     def modificar_db(self, statement, data):
         self.cursor.execute(statement, data)
+
+
+prueba = Database()
+prueba.consultar_usuario()
