@@ -11,6 +11,7 @@ class Producto():
         self.categoria = categoria
         self.precio = precio
 
+    # Getters y setter para los atributos de producto
     def get_nombre(self):
         return self.nombre
 
@@ -40,5 +41,4 @@ class Producto():
 
     def set_precio(self, precio):
         self.precio = precio
-    
     
