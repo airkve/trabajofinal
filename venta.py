@@ -11,6 +11,7 @@ class Venta():
         self.precio_total = precio_total
         self.dir_envio = dir_envio
 
+    # Getters y setter para los atributos de venta
     def get_comprador(self):
         return self.comprador
 

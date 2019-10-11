@@ -6,3 +6,7 @@ dbconf = {
     'user':'root',
     'password':'1qazxsw2'
 }
+
+queries = {
+    
+}

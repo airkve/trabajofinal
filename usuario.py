@@ -10,6 +10,7 @@ class Usuario():
         self.apellido = apellido
         self.clave = clave
 
+    # Getters y setter para los atributos del usuario
     def get_documento(self):
         return self.documento
 
