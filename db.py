@@ -9,43 +9,33 @@ class Database():
     def __init__(self):
         self.conexion = mysql.connector.connect(**dbconf)
         self.cursor = self.conexion.cursor()
-        self.agregar_usuario = """ 
-            INSERT INTO usuarios
-                (dni, nombre, apellido, email, telefono, clave)
-            VALUES
-                (%s, %s, %s, %s, %s, %s)
-        """
-        self.eliminar_usuario = """ 
-            DELETE FROM usuarios
-            WHERE usuario_id = %s
-        """
-        self.agregar_producto = """ 
-            INSERT INTO productos
-                (nombre, descripcion, marca, categoria, precio)
-            VALUES
-                (%s, %s, %s, %s, %s)
-        """
-        self.eliminar_producto = """ 
-            DELETE FROM productos
-            WHERE producto_id = %s
-        """
         
     def crear_usuario(self, data_usuario):
         self.modificar_db(queries['add_user'], data_usuario)
-    
-    def consultar_usuario(self):
-        self.cursor.execute('SELECT * FROM usuarios')
-        for i in self.cursor:
-            print(i)
+        self.conexion.commit()
 
-    def consulta_db(self, query, consulta):
-        self.cursor.execute(query, consulta)
+    def eliminar_usuario(self, usuario):
+        # detecta si la data de usuario corresponde a un ID o a un DNI
+        if usuario[0] <= 999:
+            self.modificar_db(queries['del_user_id'], usuario)
+        else:
+            self.modificar_db(queries['del_user_dni'], usuario)
         
-    def modificar_db(self, statement, data):
-        self.cursor.execute(statement, data)
+        self.conexion.commit()
+    
+    def consultar_tabla(self, tabla):
+        #self.consulta_db(queries['list_table'], (tabla,))
+        self.cursor.execute(queries['list_table'], (tabla,))
+        reporte = self.cursor.fetchall()
+        print(reporte)
+
+    def consulta_compras(self, usuario):
+        self.cursor.execute()
 
 
 prueba = Database()
 nuevo_usuario = (55555555, 'Jose', 'Reyes', 'jr2000@gmail.com', '1131592009', '123456')
-prueba.crear_usuario(nuevo_usuario)
-query = prueba.consultar_usuario()
+#prueba.crear_usuario(nuevo_usuario)
+query_table = 'usuarios'
+#prueba.eliminar_usuario((55555555,))
+prueba.consultar_tabla(query_table)

@@ -30,7 +30,7 @@ class Producto():
     def set_marca(self, marca):
         self.marca = marca
 
-    def get_categoria(sefl):
+    def get_categoria(self):
         return self.categoria
 
     def set_categoria(self, cat):
