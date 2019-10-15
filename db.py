@@ -11,15 +11,15 @@ class Database():
         self.cursor = self.conexion.cursor()
         
     def crear_usuario(self, data_usuario):
-        self.modificar_db(queries['add_user'], data_usuario)
+        self.cursor.execute(queries['add_user'], data_usuario)
         self.conexion.commit()
 
     def eliminar_usuario(self, usuario):
         # detecta si la data de usuario corresponde a un ID o a un DNI
         if usuario[0] <= 999:
-            self.modificar_db(queries['del_user_id'], usuario)
+            self.cursor.execute(queries['del_user_id'], usuario)
         else:
-            self.modificar_db(queries['del_user_dni'], usuario)
+            self.cursor.execute(queries['del_user_dni'], usuario)
         
         self.conexion.commit()
     
@@ -36,6 +36,6 @@ class Database():
 prueba = Database()
 nuevo_usuario = (55555555, 'Jose', 'Reyes', 'jr2000@gmail.com', '1131592009', '123456')
 #prueba.crear_usuario(nuevo_usuario)
-query_table = 'usuarios'
+query_table = ('usuarios')
 #prueba.eliminar_usuario((55555555,))
 prueba.consultar_tabla(query_table)
