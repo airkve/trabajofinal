@@ -8,8 +8,10 @@ dbconf = {
 }
 
 queries = {
-    'list_users':'SELECT * FROM usuarios',
-    'list_products':'SELECT * FROM productos',
+    'get_user_pswd':'SELECT usuarios.clave FROM usuarios WHERE usuario_id = %s',
+    'list_user_id':'SELECT * FROM usuarios WHERE usuario_id = %s',
+    'list_user_dni':'SELECT * FROM usuarios WHERE dni = %s',
+    'list_product_id':'SELECT * FROM productos WHERE usuario_id = %s',
     'add_user':'INSERT INTO usuarios (dni, nombre, apellido, email, telefono, clave) VALUES (%s, %s, %s, %s, %s, %s)',
     'del_user_id':'DELETE FROM usuarios WHERE usuario_id = %s',
     'del_user_dni':'DELETE FROM usuarios WHERE dni = %s',
