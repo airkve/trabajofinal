@@ -16,8 +16,9 @@ queries = {
     'del_user_id':'DELETE FROM usuarios WHERE usuario_id = %s',
     'del_user_dni':'DELETE FROM usuarios WHERE dni = %s',
     'add_product':'INSERT INTO productos (nombre, descripcion, marca, categoria, precio) VALUES (%s, %s, %s, %s, %s)',
-    'mod_product_cant':'UPDATE productos set Price = 7000 where id = 1',
+    'mod_product_cant':'UPDATE productos set Price = %s where id = %s',
     'del_product':'DELETE FROM productos WHERE producto_id = %s',
-    'new_shopping':'INSERT INTO compras () ',
-    'user_buys':'SELECT usuarios.nombre, productos.nombre, compras.cantidad, compras.precio_total FROM usuarios INNER JOIN compras ON compras.usuario_id = usuarios.usuario_id INNER JOIN productos ON productos.producto_id = compras.producto_id'
+    'new_shopping':'INSERT INTO compras (usuario_id, fecha_compra, producto_id, cantidad, precio_total, direccion_id) VALUES (%s, %s, %s, %s, %s, %s)',
+    'user_shop_history':'SELECT usuarios.nombre, productos.nombre, compras.cantidad, compras.precio_total FROM usuarios INNER JOIN compras ON compras.usuario_id = usuarios.usuario_id INNER JOIN productos ON productos.producto_id = compras.producto_id',
+    'validate_user':'SELECT * FROM usuarios WHERE email = %s AND clave = %s'
 }

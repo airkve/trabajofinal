@@ -65,11 +65,46 @@ class Database():
     def consulta_compras(self, usuario):
         self.cursor.execute()
 
+    def validar_usuario(self, user_data):
+        self.cursor.execute(queries['validate_user'], user_data)
+        result = self.cursor.fetchone()
+        return result
 
-prueba = Database()
+    def salida_producto(self, producto_id):
+        # elimina un producto de la base de datos
+        try:
+            self.cursor.execute(queries['del_producto'], (producto_id,))
+        except Error as e:
+            print('No existe producto con ese ID.')
+        else:
+            # registra los cambios a la base de datos
+            self.conexion.commit()
+
+    def entrada_producto(self, data_producto):
+        # inserta un producto en la base de datos
+        try:
+            self.cursor.execute(queries['add_product'], data_producto)
+        except Error as e:
+            print('No existe producto con ese ID.')
+        else:
+            # registra los cambios a la base de datos
+            self.conexion.commit()
+    
+    def modificar_producto_cantidad(self, cantidad):
+        # modifica la cantidad de un producto en la base de datos
+        try:
+            self.cursor.execute(queries['mod_product_cant'], (cantidad,))
+        except Error as e:
+            print('Hay un problema con la cantidad del producto.')
+        else:
+            # registra los cambios a la base de datos
+            self.conexion.commit()
+
+
+#prueba = Database()
 #nuevo_usuario = (55555555, 'Jose', 'Reyes', 'jr2000@gmail.com', '1131592009', '123456')
 #prueba.crear_usuario(nuevo_usuario)
 #query_table = ('usuarios',)
 #prueba.eliminar_usuario((95806829,))
 #prueba.consultar_usuario((95806829,))
-print(prueba.get_clave(4))
+#print(prueba.get_clave(4))

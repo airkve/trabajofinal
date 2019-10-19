@@ -7,9 +7,7 @@ from db import Database
 class Administrador(Usuario, Database):
     """ Modulo que define los atributos y metodos del administrador. """
 
-    def __init__(self, documento, nombre, apellido, clave):
-        super().__init__(documento, nombre, apellido, clave)
-        self.usuario_id = Database.consultar_usuario(documento)
-
-        def adm_login(self, pswd):
-            if pswd = Database.consultar_usuario()
+    def __init__(self, email, nombre, apellido, clave, rights):
+        super().__init__(email, nombre, apellido, clave)
+        self.rights = rights
+        self.usuario_id = Database.consultar_usuario()

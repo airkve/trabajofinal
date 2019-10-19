@@ -1,15 +1,19 @@
 #!python3
 # Proyecto final del recorrido del programador
+import datetime
+from db import Database
 
-class Venta():
+class Venta(Database):
     """ Modulo para controlar los productos que se venden, las cantidades y los usuarios que los adquieren. """
 
-    def __init__(self, comprador, producto, cantidad, precio_total, dir_envio):
+    def __init__(self, comprador, fecha_compra, producto, cantidad, precio_total, dir_envio):
         self.comprador = comprador
+        self.fecha_compra = fecha_compra.strftime('%Y-%m-%d %H:%M:%S')
         self.producto = producto
         self.cantidad = cantidad
         self.precio_total = precio_total
         self.dir_envio = dir_envio
+        self.fecha_hoy = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     # Getters y setter para los atributos de venta
     def get_comprador(self):
@@ -42,4 +46,14 @@ class Venta():
     def set_dir_envio(self, direccion):
         self.dir_envio = direccion
 
-    
+    def venta(self):
+        data = [
+            self.comprador,
+            self.fecha_hoy,
+            self.producto,
+            self.cantidad,
+            self.precio_total,
+            self.dir_envio
+        ]
+
+        Database.

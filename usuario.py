@@ -1,21 +1,21 @@
 #!python3
 # Proyecto final del recorrido del programador
 
-class Usuario():
+class Usuario(object):
     """ Modulo para la creacion de los usuarios del E-Commerce"""
 
-    def __init__(self, documento, nombre, apellido, clave):
-        self.documento = documento
+    def __init__(self, email, nombre, apellido, clave):
+        self.email = email
         self.nombre = nombre
         self.apellido = apellido
         self.clave = clave
 
     # Getters y setter para los atributos del usuario
-    def get_documento(self):
-        return self.documento
+    def get_email(self):
+        return self.email
 
-    def set_documento(self, dni):
-        self.documento = documento
+    def set_email(self, email):
+        self.email = email
 
     def get_nombre(self):
         return self.nombre
