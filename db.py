@@ -11,6 +11,7 @@ class Database():
         self.cursor = self.conexion.cursor()
         
     def crear_usuario(self, data_usuario):
+        """ Metodo para crear un usuario en la db, utiliza dni, nombre, apellido, email, telefono y clave. """
         try:
             self.cursor.execute(queries['add_user'], data_usuario)
         except Error as e:
@@ -20,6 +21,7 @@ class Database():
             self.conexion.commit()
 
     def eliminar_usuario(self, usuario):
+        """ Metodo para eliminar un usuario en la db. """
         # detecta si el argumento corresponde a un ID o a un DNI
         if usuario[0] <= 999:
             try:
@@ -33,8 +35,20 @@ class Database():
             self.cursor.execute(queries['del_user_dni'], (usuario,))
         # registra los cambios a la base de datos
         self.conexion.commit()
+        print('Usuario eliminado.')
+
+    def consultar_usuario_por_email(self, email):
+        """ Metodo para buscar un usuario en la db por su email. """
+        try:
+            self.cursor.execute(queries['get_user_by_email'], (email,))
+        except Error as e:
+            print('No existe alguien con ese E-Mail.')
+        else:
+            reporte = self.cursor.fetchone()
+        # envia el reporte en caso de que exista el email
+        return reporte
     
-    def consultar_usuario(self, usuario):
+    def consultar_usuario_por_id_dni(self, usuario):
         # detecta si el argumento corresponde a un ID o a un DNI
         if usuario[0] <= 999:
             try:
@@ -57,9 +71,9 @@ class Database():
             # imprime el reporte
             print(reporte)
 
-    def get_clave(self, user_id):
-        self.cursor.execute(queries['get_user_pswd'], (user_id,))
-        clave = self.cursor.fetchone()
+    def consultar_usuario_clave(self, clave):
+        self.cursor.execute(queries['get_user_by_pswd'], (clave,))
+        usuario = self.cursor.fetchone()
         return clave
 
     def consulta_compras(self, usuario):
@@ -101,10 +115,11 @@ class Database():
             self.conexion.commit()
 
 
-#prueba = Database()
+prueba = Database()
 #nuevo_usuario = (55555555, 'Jose', 'Reyes', 'jr2000@gmail.com', '1131592009', '123456')
 #prueba.crear_usuario(nuevo_usuario)
 #query_table = ('usuarios',)
 #prueba.eliminar_usuario((95806829,))
 #prueba.consultar_usuario((95806829,))
+print(prueba.validar_usuario(('martg@gmail.com', 'gatonegro')))
 #print(prueba.get_clave(4))

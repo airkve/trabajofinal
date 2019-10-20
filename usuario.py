@@ -1,10 +1,13 @@
 #!python3
 # Proyecto final del recorrido del programador
 
-class Usuario(object):
+from db import Database
+
+class Usuario(Database):
     """ Modulo para la creacion de los usuarios del E-Commerce"""
 
     def __init__(self, email, nombre, apellido, clave):
+        Database.__init__(self)
         self.email = email
         self.nombre = nombre
         self.apellido = apellido
@@ -12,6 +15,7 @@ class Usuario(object):
 
     # Getters y setter para los atributos del usuario
     def get_email(self):
+        query = Database.consultar_usuario()
         return self.email
 
     def set_email(self, email):
@@ -31,3 +35,11 @@ class Usuario(object):
 
     def set_clave(self, clave):
         pass
+
+    def login(self, email, clave):
+        """ Metodo para registrarse en el sistema. """
+        usuario = Database.validar_usuario(email, clave)
+        if usuario:
+            return True
+        else:
+            return False

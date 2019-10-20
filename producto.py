@@ -1,10 +1,13 @@
 #!python3
 # Proyecto final del recorrido del programador
 
-class Producto():
+from db import Database
+
+class Producto(Database):
     """ Modulo que parametriza la creaccion de un nuevo producto. """
 
     def __init__(self, nombre, descripcion, marca, categoria, precio):
+        Database.__init__():
         self.nombre = nombre
         self.descripcion = descripcion
         self.marca = marca

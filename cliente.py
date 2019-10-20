@@ -5,11 +5,11 @@ from usuario import Usuario
 from db import Database
 from venta import Venta
 
-class Cliente(Usuario, Database, Venta):
+class Cliente(Usuario):
     """ Modulo que define los atributos y metodos del cliente. """
 
     def __init__(self, email, nombre, apellido, clave, dni, telefono, direccion, altura, cod_postal, ciudad, prov, pais):
-        super().__init__(email, nombre, apellido, clave)
+        Usuario.__init__(self, email, nombre, apellido, clave)
         self.dni = dni
         self.telefono = telefono
         self.direccion = direccion
@@ -67,8 +67,3 @@ class Cliente(Usuario, Database, Venta):
     
     def get_pais(self):
         return self.pais
-
-    def login(self, user_data):
-        account = Database.validar_usuario(user_data)
-
-    def comprar(self, buy_info):
