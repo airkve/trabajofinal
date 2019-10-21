@@ -70,5 +70,5 @@ class Cliente(Usuario):
 
     
 
-ric = Cliente('ricjim@gmail.com', 'Richard', 'Jimenez', '123456', '95806829', '31592009', 'Jeronimo Salguero', '1964', '1425', 'CABA', 'Buenos Aires', 'Argentina')
-ric.get_user()
+#ric = Cliente('ricjim@gmail.com', 'Richard', 'Jimenez', '123456', '95806829', '31592009', 'Jeronimo Salguero', '1964', '1425', 'CABA', 'Buenos Aires', 'Argentina')
+#ric.get_user(5)

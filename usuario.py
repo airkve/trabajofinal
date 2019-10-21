@@ -43,7 +43,7 @@ class Usuario():
         else:
             return False
     
-    def get_user(self):
-        result = Database.consultar_usuario_id()
+    def get_user(self, usuario_id):
+        result = Database().consultar_usuario_id(usuario_id)
         print(result)
         return result

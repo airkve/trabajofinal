@@ -20,7 +20,7 @@ class Ecommerce():
     def venta(self, cliente_id, producto_id, cantidad):
         # envia la factura de compra al cliente y resta la cantidad de la base de datos
         fecha_compra = self.fecha_hoy
-        comprador = Cliente.get_data_comprador(cliente_id)
+        comprador = Cliente('ricjim@gmail.com', 'Richard', 'Jimenez', '123456', '95806829', '31592009', 'Jeronimo Salguero', '1964', '1425', 'CABA', 'Buenos Aires', 'Argentina').get_user(cliente_id)
         item = Producto.get_producto(producto_id)
         cant = cantidad
         precio_final = item[3] * cant
