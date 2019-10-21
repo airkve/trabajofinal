@@ -7,7 +7,7 @@ class Producto(Database):
     """ Modulo que parametriza la creaccion de un nuevo producto. """
 
     def __init__(self, nombre, descripcion, marca, categoria, precio):
-        Database.__init__():
+        Database.__init__(self)
         self.nombre = nombre
         self.descripcion = descripcion
         self.marca = marca
@@ -45,3 +45,9 @@ class Producto(Database):
     def set_precio(self, precio):
         self.precio = precio
     
+    def cargar_producto(self):
+        Database.cargar_producto()
+
+    def get_producto(self, producto_id):
+        result = Database.consultar_producto_id(producto_id)
+        return result

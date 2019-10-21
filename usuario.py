@@ -3,11 +3,10 @@
 
 from db import Database
 
-class Usuario(Database):
+class Usuario():
     """ Modulo para la creacion de los usuarios del E-Commerce"""
 
     def __init__(self, email, nombre, apellido, clave):
-        Database.__init__(self)
         self.email = email
         self.nombre = nombre
         self.apellido = apellido
@@ -43,3 +42,8 @@ class Usuario(Database):
             return True
         else:
             return False
+    
+    def get_user(self):
+        result = Database.consultar_usuario_id()
+        print(result)
+        return result

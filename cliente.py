@@ -2,8 +2,8 @@
 # Modulo de cliente
 
 from usuario import Usuario
-from db import Database
-from venta import Venta
+#from db import Database
+#from venta import Venta
 
 class Cliente(Usuario):
     """ Modulo que define los atributos y metodos del cliente. """
@@ -67,3 +67,8 @@ class Cliente(Usuario):
     
     def get_pais(self):
         return self.pais
+
+    
+
+ric = Cliente('ricjim@gmail.com', 'Richard', 'Jimenez', '123456', '95806829', '31592009', 'Jeronimo Salguero', '1964', '1425', 'CABA', 'Buenos Aires', 'Argentina')
+ric.get_user()
