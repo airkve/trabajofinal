@@ -1,7 +1,6 @@
-#!python3
 # Proyecto final del recorrido del programador
 
-from db import Database
+#from db import Database
 
 class Usuario():
     """ Modulo para la creacion de los usuarios del E-Commerce"""

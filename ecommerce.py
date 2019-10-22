@@ -1,4 +1,3 @@
-#!pyhton3
 # Modulo principal del E-Commerce
 
 from cliente import Cliente
@@ -10,6 +9,8 @@ class Ecommerce():
 
     def __init__(self):
         self.fecha_hoy = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        self.lista_clientes = []
+        self.lista_productos = []
 
     def get_nombre(self):
         return self.nombre

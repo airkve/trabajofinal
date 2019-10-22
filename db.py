@@ -2,6 +2,7 @@ import mysql.connector
 from dbdata import dbconf, queries
 from mysql.connector import Error
 from mysql.connector import errorcode
+from cliente import Cliente
 
 class Database():
     """ Modulo para consultar, modificar y conectarse a la base de datos. """
@@ -44,9 +45,9 @@ class Database():
         except Error as e:
             print('No existe alguien con ese E-Mail.', e)
         else:
-            reporte = self.cursor.fetchone()
+            consulta = self.cursor.fetchone()
         # envia el reporte en caso de que exista el email
-        return reporte
+        return consulta
     
     def consultar_usuario_id(self, usuario_id):
         try:
@@ -55,18 +56,30 @@ class Database():
             print('No se encontró el usuario por el ID.', e)
         else:
             # archiva en una variable los resultados del query
-            reporte = self.cursor.fetchone()
+            consulta = self.cursor.fetchone()
             # imprime el reporte
         # retorna la data del query
-        return reporte
+        return consulta
 
     def consultar_usuario_clave(self, clave):
         self.cursor.execute(queries['get_user_by_pswd'], (clave,))
-        usuario = self.cursor.fetchone()
-        return clave
+        consulta = self.cursor.fetchone()
+        return consulta
 
-    def consultar_usuario_direccion(self, usuario):
-        self.cursor.execute()
+    def consultar_clientes(self):
+        clientes = []
+        self.cursor.execute(queries['get_clients'])
+        consulta = self.cursor.fetchall()
+        for line in consulta:
+            print(line)
+            clientes.append(Cliente(*line))
+
+        return clientes
+
+    def consultar_cliente(self, cliente_id):
+        self.cursor.execute(queries['get_client'], (cliente_id,))
+        consulta = list(self.cursor.fetchone())
+        return Cliente(*consulta)
 
     def validar_usuario(self, user_data):
         self.cursor.execute(queries['validate_user'], user_data)
@@ -114,7 +127,7 @@ class Database():
         return result
 
 
-#prueba = Database()
+prueba = Database()
 #nuevo_usuario = (55555555, 'Jose', 'Reyes', 'jr2000@gmail.com', '1131592009', '123456')
 #prueba.crear_usuario(nuevo_usuario)
 #query_table = ('usuarios',)
@@ -122,3 +135,5 @@ class Database():
 #print(prueba.consultar_usuario_id(5))
 #print(prueba.validar_usuario(('martg@gmail.com', 'gatonegro')))
 #print(prueba.get_clave(4))
+print(prueba.consultar_clientes())
+print(prueba.consultar_cliente(5))

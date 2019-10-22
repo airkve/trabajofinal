@@ -1,4 +1,3 @@
-#!python3
 # Proyecto final del recorrido del programador
 import datetime
 from db import Database

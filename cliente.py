@@ -1,4 +1,3 @@
-#!python3
 # Modulo de cliente
 
 from usuario import Usuario
@@ -68,7 +67,19 @@ class Cliente(Usuario):
     def get_pais(self):
         return self.pais
 
-    
+    def set_clients_list(self, lst_clientes):
+        """ Metodo que transforma la data de la base de datos a objetos Cliente. """
+        # variable que guarda los ususarios en una lista
+        clientes = []
+        # ciclo que recorre los tuples de usuarios y los agrega a la lista clientes
+        for cliente in lst_clientes:
+            clientes.append(list(cliente))
 
-#ric = Cliente('ricjim@gmail.com', 'Richard', 'Jimenez', '123456', '95806829', '31592009', 'Jeronimo Salguero', '1964', '1425', 'CABA', 'Buenos Aires', 'Argentina')
+        # retorna la lista de clientes
+        return clientes
+
+    
+#richard = list(Database().consultar_cliente(1))
+#ric = Cliente(*richard)
 #ric.get_user(5)
+#print(ric.get_apellido())
