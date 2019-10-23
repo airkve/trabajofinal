@@ -67,6 +67,15 @@ class Cliente(Usuario):
     def get_pais(self):
         return self.pais
 
+    def get_full_client(self):
+        """ dni, nombre, apellido, email, telefono, clave """
+        client = [
+            self.dni, self.nombre, self.apellido,
+            self.email, self.telefono, self.clave
+        ]
+        # 
+        direction = []
+
     def set_clients_list(self, lst_clientes):
         """ Metodo que transforma la data de la base de datos a objetos Cliente. """
         # variable que guarda los ususarios en una lista

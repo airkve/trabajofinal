@@ -41,9 +41,4 @@ class Producto():
     def set_precio(self, precio):
         self.precio = precio
     
-    def cargar_producto(self):
-        Database.cargar_producto()
 
-    def get_producto(self, producto_id):
-        result = Database.consultar_producto_id(producto_id)
-        return result

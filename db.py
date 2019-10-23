@@ -3,6 +3,7 @@ from dbdata import dbconf, queries
 from mysql.connector import Error
 from mysql.connector import errorcode
 from cliente import Cliente
+from producto import Producto
 
 class Database():
     """ Modulo para consultar, modificar y conectarse a la base de datos. """
@@ -13,8 +14,13 @@ class Database():
         
     def crear_usuario(self, data_usuario):
         """ Metodo para crear un usuario en la db, utiliza dni, nombre, apellido, email, telefono y clave. """
+        user = Cliente(data_usuario).get_nombre
         try:
             self.cursor.execute(queries['add_user'], data_usuario)
+            self.cursor.execute(queries['add_address'], (Cliente.direccion,))
+            self.cursor.execute(queries['add_city'], (Cliente.ciudad,))
+            self.cursor.execute(queries['add_province'], (Cliente.provincia,))
+            self.cursor.execute(queries['add_pais'], (Cliente.pais,))
         except Error as e:
             print('El registro ya existe.')
         else:
@@ -24,8 +30,10 @@ class Database():
     def eliminar_usuario(self, usuario):
         """ Metodo para eliminar un usuario en la db usando el id del usuario o su dni. """
         # detecta si el argumento corresponde a un ID o a un DNI
+        direccionID = self.cursor.execute(queries['get_address_id'], (Cliente.dni))
         if usuario[0] <= 999:
             try:
+                self.cursor.execute(queries['get_address_by_user_id'], (direccionID,))
                 self.cursor.execute(queries['del_user_id'], (usuario,))
             except Error as e:
                 print('No existe alguien con ese codigo de usuario.')
@@ -135,5 +143,6 @@ prueba = Database()
 #print(prueba.consultar_usuario_id(5))
 #print(prueba.validar_usuario(('martg@gmail.com', 'gatonegro')))
 #print(prueba.get_clave(4))
-print(prueba.consultar_clientes())
-print(prueba.consultar_cliente(5))
+#print(prueba.consultar_clientes())
+comprador = prueba.consultar_cliente(5)
+print
