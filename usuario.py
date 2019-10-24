@@ -13,7 +13,6 @@ class Usuario():
 
     # Getters y setter para los atributos del usuario
     def get_email(self):
-        query = Database.consultar_usuario()
         return self.email
 
     def set_email(self, email):
@@ -36,13 +35,13 @@ class Usuario():
 
     def login(self, email, clave):
         """ Metodo para registrarse en el sistema. """
-        usuario = Database.validar_usuario(email, clave)
+        usuario = None
         if usuario:
             return True
         else:
             return False
     
     def get_user(self, usuario_id):
-        result = Database().consultar_usuario_id(usuario_id)
+        result = None
         print(result)
         return result

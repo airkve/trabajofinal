@@ -14,42 +14,58 @@ class Database():
         
     def crear_usuario(self, data_usuario):
         """ Metodo para crear un usuario en la db, utiliza dni, nombre, apellido, email, telefono y clave. """
-        user = Cliente(data_usuario).get_nombre
-        try:
-            self.cursor.execute(queries['add_user'], data_usuario)
-            self.cursor.execute(queries['add_address'], (Cliente.direccion,))
-            self.cursor.execute(queries['add_city'], (Cliente.ciudad,))
-            self.cursor.execute(queries['add_province'], (Cliente.provincia,))
-            self.cursor.execute(queries['add_pais'], (Cliente.pais,))
-        except Error as e:
-            print('El registro ya existe.')
-        else:
-            # registra los cambios a la base de datos
-            self.conexion.commit()
 
-    def eliminar_usuario(self, usuario):
-        """ Metodo para eliminar un usuario en la db usando el id del usuario o su dni. """
-        # detecta si el argumento corresponde a un ID o a un DNI
-        direccionID = self.cursor.execute(queries['get_address_id'], (Cliente.dni))
-        if usuario[0] <= 999:
+        self.cursor.execute(queries['get_user_dni'], (data_usuario.get_dni(),))
+        consulta = self.cursor.fetchone()
+        if consulta:
+            print('El usuario ya existe.')
+        else:
+            user = [
+                data_usuario.get_dni(),
+                data_usuario.get_nombre(),
+                data_usuario.get_apellido(),
+                data_usuario.get_email(),
+                data_usuario.get_telefono(),
+                data_usuario.get_clave(),
+                data_usuario.get_direccion(),
+                data_usuario.get_ciudad()
+            ]
+            print(user)
             try:
-                self.cursor.execute(queries['get_address_by_user_id'], (direccionID,))
-                self.cursor.execute(queries['del_user_id'], (usuario,))
+                self.cursor.execute(queries['add_user'], (*user,))
             except Error as e:
-                print('No existe alguien con ese codigo de usuario.')
+                print('Hubo un problema al registrar los datos en la DB.', e)
             else:
                 # registra los cambios a la base de datos
                 self.conexion.commit()
+                print('Se registraron los datos con exito.')
+
+    def eliminar_usuario(self, usuario_dni):
+        """ Metodo para eliminar un usuario en la db usando su dni. """
+
+        # archiva el DNI del usuario para multiple usos
+        dni = usuario_dni.get_dni()
+        # valida si existe el usuario en la db
+        self.cursor.execute(queries['get_user_dni'], (dni,))
+        consulta = self.cursor.fetchone()
+        if consulta:
+            try:
+                self.cursor.execute(queries['del_user_by_dni'], (dni,))
+            except Error as e:
+                print('No existe alguien con ese codigo de usuario.', e)
+            else:
+                # registra los cambios a la base de datos
+                self.conexion.commit()
+                print('Usuario eliminado.')
         else:
-            self.cursor.execute(queries['del_user_dni'], (usuario,))
-        # registra los cambios a la base de datos
-        self.conexion.commit()
-        print('Usuario eliminado.')
+            print('No existe un usuario con ese DNI.')
+        
 
     def consultar_usuario_por_email(self, email):
         """ Metodo para buscar un usuario en la db por su email. """
+
         try:
-            self.cursor.execute(queries['get_user_by_email'], (email,))
+            self.cursor.execute(queries['get_user_by_email'], (email.get_email(),))
         except Error as e:
             print('No existe alguien con ese E-Mail.', e)
         else:
@@ -84,12 +100,13 @@ class Database():
 
         return clientes
 
-    def consultar_cliente(self, cliente_id):
-        self.cursor.execute(queries['get_client'], (cliente_id,))
-        consulta = list(self.cursor.fetchone())
+    def consultar_cliente(self, cliente):
+        self.cursor.execute(queries['get_client'], (cliente.get_dni(),))
+        consulta = self.cursor.fetchone()
         return Cliente(*consulta)
 
     def validar_usuario(self, user_data):
+
         self.cursor.execute(queries['validate_user'], user_data)
         result = self.cursor.fetchone()
         return result
@@ -114,35 +131,56 @@ class Database():
             # registra los cambios a la base de datos
             self.conexion.commit()
     
-    def modificar_producto_cantidad(self, cantidad):
+    def modificar_producto_cantidad(self, producto):
         # modifica la cantidad de un producto en la base de datos
         try:
-            self.cursor.execute(queries['mod_product_cant'], (cantidad,))
+            self.cursor.execute(queries['mod_product_cant'], (producto))
         except Error as e:
-            print('Hay un problema con la cantidad del producto.')
+            print('Hay un problema con la cantidad del producto.', e)
         else:
             # registra los cambios a la base de datos
             self.conexion.commit()
+            print('Se cambió la cantidad a {}.'.format(producto[1]))
 
     def consultar_producto_id(self, producto_id):
         try:
-            self.cursor.execute(queries['list_product_id'], (producto_id,))
-        except:
-            print('No se encontró el producto.')
+            self.cursor.execute(queries['get_product_by_id'], (producto_id,))
+        except Error as e:
+            print('No se encontró el producto.', e)
         else:
             result = self.cursor.fetchone()
-        # retorna el resultado de la busqued
-        return result
+            # retorna el resultado de la busqued
+            return result
 
 
 prueba = Database()
-#nuevo_usuario = (55555555, 'Jose', 'Reyes', 'jr2000@gmail.com', '1131592009', '123456')
-#prueba.crear_usuario(nuevo_usuario)
+
+ric = Cliente(
+    95806829,
+    'Richard',
+    'Jimenez',
+    'ricjim@gmail.com',
+    1131592009,
+    'asfñkj',
+    'Jeronimo Salguero',
+    1964,
+    1425, 
+    1, 
+    1, 
+    11)
+item = prueba.consultar_producto_id(13)
+print(item)
+tele = Producto(*item)
+print(tele.get_nombre())
+print('El precio del televisor es de {:7,.2f}'.format(tele.get_precio()))
+tele.set_cantidad(tele.get_cantidad() - 1)
+datos = (tele.get_id(), tele.get_cantidad())
+prueba.modificar_producto_cantidad(datos)
+#prueba.modificar_producto_cantidad()
+#prueba.crear_usuario(ric)
 #query_table = ('usuarios',)
-#prueba.eliminar_usuario((95806829,))
-#print(prueba.consultar_usuario_id(5))
+#prueba.eliminar_usuario(ric)
 #print(prueba.validar_usuario(('martg@gmail.com', 'gatonegro')))
 #print(prueba.get_clave(4))
 #print(prueba.consultar_clientes())
-comprador = prueba.consultar_cliente(5)
-print
+#comprador = prueba.consultar_cliente(5)
