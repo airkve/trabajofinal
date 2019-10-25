@@ -52,4 +52,14 @@ class Producto():
     def set_cantidad(self, cant):
         self.cantidad = cant
     
-
+    def get_productos(self, lst):
+        result = [
+            self.get_id(),
+            self.get_nombre(),
+            self.get_descripcion(),
+            self.get_precio(),
+            self.get_categoria(),
+            self.get_marca(),
+            self.get_cantidad()
+        ]
+        return result
