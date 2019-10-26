@@ -17,6 +17,7 @@ class Cliente(Usuario):
         self.ciudad = ciudad
         self.provincia = prov
         self.pais = pais
+        self.historial_compras = []
 
     def set_dni(self, dni):
         self.dni = dni

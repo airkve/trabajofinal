@@ -4,6 +4,7 @@ from mysql.connector import Error
 from mysql.connector import errorcode
 from cliente import Cliente
 from producto import Producto
+from factura import Factura
 
 class Database():
     """ Clase para consultar, modificar y conectarse a la base de datos. """
@@ -118,6 +119,23 @@ class Database():
             # guarda la consulta en una variable
             consulta = self.cursor.fetchone()
             return Cliente(*consulta)
+
+    def consultar_compras(self, cliente):
+        """ Busca el historial de compras del usuario en ls DB. """
+
+        historico = []
+        try:
+            self.cursor.execute(queries['get_user_shop_history'], (cliente.get_dni(),))
+        except Error as e:
+            print("Error al consultar el historico", e)
+        else:
+            #guarda la consulta en una variable
+            consulta = self.cursor.fetchall()
+        # aplica el modelo de Factura a cada linea de la consulta
+        for linea in consulta:
+            historico.append(Factura(*linea))
+        # returna la lista de facturas
+        return historico
 
     def validar_usuario(self, user_data):
         """ Busca el email y la clave de un usuario en la DB para validar login. """
