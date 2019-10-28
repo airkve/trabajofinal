@@ -28,5 +28,5 @@ queries = {
     'add_product':'INSERT INTO productos (nombre, descripcion, marca, categoria, precio) VALUES (%s, %s, %s, %s, %s)',
     'mod_product_cant':'UPDATE productos set cantidad = %s where producto_id = %s',
     'del_product':'DELETE FROM productos WHERE producto_id = %s',
-    'new_shopping':'INSERT INTO compras (usuario_id, fecha_compra, producto_id, cantidad, precio_total, direccion_id) VALUES (%s, %s, %s, %s, %s, %s)',
+    'new_shopping':'INSERT INTO compras (usuario_id, fecha_compra, producto_id, cantidad, precio_total) VALUES (%s, %s, %s, %s, %s)',
 }

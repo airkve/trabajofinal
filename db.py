@@ -5,6 +5,7 @@ from mysql.connector import errorcode
 from cliente import Cliente
 from producto import Producto
 from venta import Venta
+from factura import Factura
 
 class Database():
     """ Clase para consultar, modificar y conectarse a la base de datos. """
@@ -208,8 +209,8 @@ class Database():
         # aplica el modelo de Factura a cada linea de la consulta
         for linea in consulta:
             historico.append(Factura(*linea))
-        # returna la lista de facturas
-        return historico
+            # returna la lista de facturas
+            return historico
 
     def consultar_compras(self, cliente):
         """ Busca el historial de compras del usuario en ls DB. """
