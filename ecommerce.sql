@@ -334,33 +334,6 @@ VALUES (1,'Ciudad Autonoma de Buenos Aires',1),
 
 
 
-DROP TABLE IF EXISTS `direcciones`;
-CREATE TABLE `direcciones` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `direccion` varchar(50) NOT NULL,
-  `altura` smallint(5) NOT NULL,
-  `codigo_postal` smallint(4) DEFAULT NULL,
-  `ciudad_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`ciudad_id`) REFERENCES `ciudades` (`ciudad_id`)
-);
-
-INSERT INTO `direcciones` (id, direccion, altura, codigo_postal, ciudad_id)
-VALUES (1,'Malaver',876,4713,3),
-	   (2,'General Pueyrredon',1564,3421,2),
-       (3,'Emilio Mitre',4222,1213,7),
-       (4,'Cuyo',366,1313,6),
-       (5,'Santa Cruz',2020,1354,5),
-       (6,'Misiones',876,4713,3),
-       (7,'Chacabuco',1564,3421,2),
-       (8,'Juan Domingo Peron',4222,1213,7),
-       (9,'Santa Fe',366,1313,6),
-       (10,'Aconcagua',2020,1354,5),
-       (11,'Jeronimo Salguero',1964,1425,1),
-       (12, 'Av. Ppal. Cumbres de Curumo, Res. Salto Caroní, PH', NULL, 1080,11);
-
-
-
 DROP TABLE IF EXISTS `marcas`;
 CREATE TABLE `marcas` (
   `marca_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -466,48 +439,48 @@ CREATE TABLE `usuarios` (
   `clave` char(150) NOT NULL,
   `email` varchar(50) NOT NULL,
   `telefono` char(20) NOT NULL,
-  `direccion_id` int(11) DEFAULT NULL,
+  `direccion` VARCHAR(200) NOT NULL,
+  `ciudad_id` INT(11) NOT NULL,
   PRIMARY KEY (`usuario_id`),
-  FOREIGN KEY (`direccion_id`) REFERENCES `direcciones` (`id`)
+  FOREIGN KEY (`ciudad_id`) REFERENCES `ciudades` (`ciudad_id`)
 );
 
-INSERT INTO `usuarios` (usuario_id, dni, nombre, apellido, clave, email, telefono, direccion_id)
-VALUES (1,39100420,'Martina','Gutierrez','gatonegro','martg@gmail.com','1554584969',NULL),
-	   (2,23049956,'Federico','Gomez','picapiedra','fedgom@hotmail.com','1569599739',NULL),
-	   (3,38858949,'Ximena','Podesta','elefante9','ximepo@gmail.com','1566442235',NULL),
-	   (4,11331122,'Roberto','Mena','martina95','martg@hotmail.com','114794632',NULL),
-	   (5,42111124,'Rodrigo','Castillo','gnr2013','rod_gnr@gmail.com','1534226422',NULL),
-	   (6,32211112,'Clara','Coppola','gatonegro','claracop@gmail.com','211242234',NULL),
-	   (7,23122334,'Francisca','Gomez','picapiedra','frang@hotmail.com','232444221',NULL),
-	   (8,38123443,'Javier','Martin','elefante9','javi94@gmail.com','2334221332',NULL),
-	   (9,11554223,'Analía','Mena','juisgi','anime01@hotmail.com','244884663',NULL),
-       (10,42154468,'Sebastian','Castillo','gnr2013','sebcasti@hotmail.com','322455646',NULL);
+INSERT INTO `usuarios` (usuario_id, dni, nombre, apellido, clave, email, telefono, direccion, ciudad_id)
+VALUES (1,39100420,'Martina','Gutierrez','gatonegro','martg@gmail.com','1554584969','Malaver 876 cp4713',3),
+	   (2,23049956,'Federico','Gomez','picapiedra','fedgom@hotmail.com','1569599739','General Pueyrredon 1564 cp3421',2),
+	   (3,38858949,'Ximena','Podesta','elefante9','ximepo@gmail.com','1566442235','Emilio Mitre 4222 cp1213',7),
+	   (4,11331122,'Roberto','Mena','martina95','martg@hotmail.com','114794632','Cuyo 366 cp1313',6),
+	   (5,42111124,'Rodrigo','Castillo','gnr2013','rod_gnr@gmail.com','1534226422','Santa Cruz 2020 cp1354',5),
+	   (6,32211112,'Clara','Coppola','gatonegro','claracop@gmail.com','211242234','Misiones 876 cp4713',3),
+	   (7,23122334,'Francisca','Gomez','picapiedra','frang@hotmail.com','232444221','Chacabuco 1564 cp3421',2),
+	   (8,38123443,'Javier','Martin','elefante9','javi94@gmail.com','2334221332','Juan Domingo Peron 4222 cp1213',7),
+	   (9,11554223,'Analía','Mena','juisgi','anime01@hotmail.com','244884663','Santa Fe 366 cp1313',6),
+       (10,42154468,'Sebastian','Castillo','gnr2013','sebcasti@hotmail.com','322455646','Aconcagua 2020 cp1354',5);
 
 
 
 DROP TABLE IF EXISTS `compras`;
 CREATE TABLE `compras` (
   `compra_id` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha_compra` DATETIME NOT NULL,
   `usuario_id` int(11) DEFAULT NULL,
-  `direccion_id` int(11) DEFAULT NULL,
   `producto_id` int(11) DEFAULT NULL,
   `cantidad` smallint(4) NOT NULL,
   `precio_total` float NOT NULL,
   PRIMARY KEY (`compra_id`),
   FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`),
-  FOREIGN KEY (`direccion_id`) REFERENCES `direcciones` (`id`),
   FOREIGN KEY (`producto_id`) REFERENCES `productos` (`producto_id`)
 );
 
-INSERT INTO `compras` (compra_id, usuario_id, direccion_id, producto_id, cantidad, precio_total)
-VALUES (1,1,1,1,1,5500),
-	   (2,3,2,1,1,5500),
-       (3,4,3,2,1,3600),
-	   (4,5,4,2,1,3600),
-       (5,3,2,3,1,1100),
-       (6,4,3,3,1,1100),
-       (7,2,7,1,1,5500),
-       (8,1,1,1,1,5500),
-       (9,6,8,2,1,3600),
-       (10,7,9,2,1,3600);
+INSERT INTO `compras` (compra_id, fecha_compra, usuario_id, producto_id, cantidad, precio_total)
+VALUES (1,'2017-08-24 11:24:01',1,1,1,5500),
+	   (2,'2018-01-07 01:52:50',3,1,1,5500),
+       (3,'2019-07-10 04:30:29',4,2,1,3600),
+	   (4,'2017-09-19 05:45:50',5,2,1,3600),
+       (5,'2019-04-02 12:39:54',3,3,1,1100),
+       (6,'2018-04-09 11:30:48',4,3,1,1100),
+       (7,'2018-10-25 11:27:29',2,1,1,5500),
+       (8,'2018-12-10 22:22:39',1,1,1,5500),
+       (9,'2017-08-21 23:07:46',6,2,1,3600),
+       (10,'2019-05-28 17:06:52',7,2,1,3600);
 
