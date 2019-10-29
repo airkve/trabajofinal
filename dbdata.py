@@ -11,7 +11,6 @@ queries = {
     'get_user_by_pswd':'SELECT * FROM usuarios WHERE clave = %s',
     'get_user_by_email':'SELECT * FROM usuarios WHERE email = %s',
     'get_user_by_dni':'SELECT * FROM usuarios WHERE usuario_id = %s',
-    'get_user_id':'SELECT usuario_id FROM usuarios WHERE usuario_id = %s',
     'get_user_dni':'SELECT dni FROM usuarios WHERE dni = %s',
     'get_user_email':'SELECT email FROM usuarios WHERE email = %s',
     'add_user':'INSERT INTO usuarios (dni, nombre, apellido, email, telefono, clave, direccion, ciudad_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)',

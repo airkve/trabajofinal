@@ -14,24 +14,25 @@ class Database():
         self.conexion = mysql.connector.connect(**dbconf)
         self.cursor = self.conexion.cursor()
         
-    def crear_usuario(self, data_usuario):
+    def crear_usuario(self, cliente):
         """ Crea un usuario en la DB usando:
-        dni, nombre, apellido, email, telefono, clave, direccion y ciudad_id. """
+        dni, nombre, apellido, email, telefono,
+        clave, direccion y ciudad_id. """
 
-        self.cursor.execute(queries['get_user_dni'], (data_usuario.get_dni(),))
+        self.cursor.execute(queries['get_user_dni'], (cliente.get_dni(),))
         consulta = self.cursor.fetchone()
         if consulta:
             print('El usuario ya existe.')
         else:
             user = [
-                data_usuario.get_dni(),
-                data_usuario.get_nombre(),
-                data_usuario.get_apellido(),
-                data_usuario.get_email(),
-                data_usuario.get_telefono(),
-                data_usuario.get_clave(),
-                data_usuario.get_direccion(),
-                data_usuario.get_ciudad()
+                cliente.get_dni(),
+                cliente.get_nombre(),
+                cliente.get_apellido(),
+                cliente.get_email(),
+                cliente.get_telefono(),
+                cliente.get_clave(),
+                cliente.get_direccion(),
+                cliente.get_ciudad()
             ]
             print(user)
             try:
@@ -44,7 +45,7 @@ class Database():
                 print('Se registraron los datos con exito.')
 
     def eliminar_usuario(self, usuario_dni):
-        """ Metodo para eliminar un usuario en la db usando su dni. """
+        """ Elimina a un usuario en la db usando su dni. """
 
         # archiva el DNI del usuario para multiple usos
         dni = usuario_dni.get_dni()
@@ -63,12 +64,11 @@ class Database():
         else:
             print('No existe un usuario con ese DNI.')
         
-    # Metodos para los usuarios
-    def consultar_usuario_por_email(self, email):
-        """ Metodo para buscar un usuario en la db por su email. """
+    def consultar_usuario_por_email(self, usuario):
+        """ Busca a un usuario en la db por su email. """
 
         try:
-            self.cursor.execute(queries['get_user_by_email'], (email.get_email(),))
+            self.cursor.execute(queries['get_user_by_email'], (usuario.get_email(),))
         except Error as e:
             print('No existe alguien con ese E-Mail.', e)
         else:
@@ -76,58 +76,39 @@ class Database():
         # envia el reporte en caso de que exista el email
         return consulta
     
-    def consultar_usuario_id(self, usuario_id):
-        """ Busca el ID de un usuario en la DB. """
+    def consultar_usuario_por_dni(self, usuario):
+        """ Busca un usuario en la DB utilizando su DNI. """
 
         try:
-            self.cursor.execute(queries['list_user_id'], (usuario_id,))
+            self.cursor.execute(queries['get_user_by_dni'], (usuario.get_dni(),))
         except Error as e:
-            print('No se encontró el usuario por el ID.', e)
+            print('No se encontró el usuario con ese DNI.', e)
         else:
             # archiva en una variable los resultados del query
             consulta = self.cursor.fetchone()
-            # imprime el reporte
-        # retorna la data del query
-        return consulta
+            # retorna la data del query
+            return consulta
 
-    def consultar_usuario_clave(self, clave):
+    def consultar_usuario_clave(self, usuario):
         """ Busca la clave de un usuario en la DB. """
 
-        self.cursor.execute(queries['get_user_by_pswd'], (clave,))
+        self.cursor.execute(queries['get_user_by_pswd'], (usuario.get_clave(),))
         consulta = self.cursor.fetchone()
         return consulta
 
     def consultar_clientes(self):
-        """ Busca la lista de clientes en la DB y la archiva en una lista. """
+        """ Busca la lista de clientes en la DB. """
 
-        clientes = []
         self.cursor.execute(queries['get_clients'])
         consulta = self.cursor.fetchall()
-        for line in consulta:
-            print(line)
-            clientes.append(Cliente(*line))
-
-        return clientes
-
-    def consultar_cliente(self, cliente):
-        """ Busca un usuario en la DB utilizando el DNI. """
-
-        try:
-            self.cursor.execute(queries['get_client'], (cliente.get_dni(),))
-        except Error as e:
-            print('Se produjo un error buscando al usuario por su DNI', e)
-        else:
-            # guarda la consulta en una variable
-            consulta = self.cursor.fetchone()
-            return Cliente(*consulta)
+        return consulta
 
 
-
-    def validar_usuario(self, user_data):
+    def validar_usuario(self, data):
         """ Busca el email y la clave de un usuario en la DB para validar login. """
 
         try:
-            self.cursor.execute(queries['validate_user'], user_data)
+            self.cursor.execute(queries['validate_user'], data)
         except Error as e:
             print('El usuario o la contraseña no coinciden.', e)
         else:
@@ -136,45 +117,54 @@ class Database():
             return result
 
     # Metodos para los poductos
-    def eliminar_producto(self, producto_id):
+    def eliminar_producto(self, producto):
         """ Elimina un producto en la DB por su ID. """
 
         # elimina un producto de la base de datos
         try:
-            self.cursor.execute(queries['del_producto'], (producto_id,))
+            self.cursor.execute(queries['del_producto'], (producto.get_id(),))
         except Error as e:
-            print('No existe producto con ese ID.')
+            print('No existe un producto con ese ID.')
         else:
             # registra los cambios a la base de datos
             self.conexion.commit()
 
-    def cargar_producto(self, data_producto):
+    def cargar_producto(self, producto):
         """ Crea un producto nuevo en la DB. """
 
+        item = [
+            self.producto.get_id(),
+            self.producto.get_nombre(),
+            self.producto.get_descriptcion(),
+            self.producto.get_marca(),
+            self.producto.get_categoria(),
+            self.producto.get_precio(),
+            self.producto.get_cantidad()
+        ]
         # inserta un producto en la base de datos
         try:
-            self.cursor.execute(queries['add_product'], data_producto)
+            self.cursor.execute(queries['add_product'], item)
         except Error as e:
             print('No existe producto con ese ID.')
         else:
             # registra los cambios a la base de datos
             self.conexion.commit()
     
-    def modificar_producto_cantidad(self, producto):
+    def modificar_producto_cantidad(self, producto, cantidad):
         """ Modifica la cantidad de un producto en la DB. """
 
         try:
-            self.cursor.execute(queries['mod_product_cant'], (producto))
+            self.cursor.execute(queries['mod_product_cant'], (producto.get_id(), cantidad))
         except Error as e:
-            print('Hay un problema con la cantidad del producto.', e)
+            print('Ocurrió un problema al tratar de ejecutar la operación.', e)
         else:
             # registra los cambios a la base de datos
             self.conexion.commit()
-            print('Se cambió la cantidad a {}.'.format(producto[1]))
+            print('Cambio exitoso {}.'.format(producto))
 
-    def consultar_producto_id(self, producto_id):
+    def consultar_producto_id(self, producto):
         try:
-            self.cursor.execute(queries['get_product_by_id'], (producto_id,))
+            self.cursor.execute(queries['get_product_by_id'], (producto.get_id(),))
         except Error as e:
             print('No se encontró el producto.', e)
         else:
@@ -183,7 +173,8 @@ class Database():
             return consulta
 
     def consultar_lista_productos(self):
-        lista_productos = []
+        """ Busca toda la lista de productos en la DB. """
+        
         try:
             self.cursor.execute(queries['get_products'])
         except Error as e:
@@ -191,31 +182,24 @@ class Database():
         else:
             # guarda la consulta en una variable
             consulta = self.cursor.fetchall()
+            return consulta
 
-        for producto in consulta:
-            lista_productos.append(Producto(*producto))
-        return lista_productos
+    def crear_compra(self, cliente, compras):
+        """ Registra las compras del cliente en la DB. """
 
-    def crear_compras(self, cliente, producto):
-        """ Registra en la DB las compras del cliente. """
-
+        user_id = self.consultar_usuario_por_email(cliente.get_email())
         try:
-            self.cursor.execute(queries['get_user_shop_history'], (cliente.get_dni(),))
+            self.cursor.execute(queries['new_shoping'], (compras))
+            self.cursor.execute(queries['mod_product_cant'], (compras.get_cantidad()))
         except Error as e:
             print("Error al consultar el historico", e)
         else:
             #guarda la consulta en una variable
             consulta = self.cursor.fetchall()
-        # aplica el modelo de Factura a cada linea de la consulta
-        for linea in consulta:
-            historico.append(Factura(*linea))
-            # returna la lista de facturas
-            return historico
 
     def consultar_compras(self, cliente):
         """ Busca el historial de compras del usuario en ls DB. """
 
-        historico = []
         try:
             self.cursor.execute(queries['get_user_shop_history'], (cliente.get_dni(),))
         except Error as e:
@@ -223,11 +207,8 @@ class Database():
         else:
             #guarda la consulta en una variable
             consulta = self.cursor.fetchall()
-        # aplica el modelo de Factura a cada linea de la consulta
-        for linea in consulta:
-            historico.append(Factura(*linea))
-        # returna la lista de facturas
-        return historico
+            return consulta
+        
 
 
 # prueba = Database()

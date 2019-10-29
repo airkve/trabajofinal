@@ -31,67 +31,64 @@ class Ecommerce():
         productos_carrito = []
 
     def venta(self, cliente, producto, cantidad):
-        # envia la factura de compra al cliente y resta la cantidad de la base de datos
-        fecha_compra = self.fecha_hoy
-        comprador = (cliente.get_nombre(), cliente.get_apellido(), cliente.get_telefono(), cliente.get_email())
-        item = producto.get_nombre()
-        cant = producto.get_cantidad()
-        precio_final = producto.get_precio() * cant
-        direccion = cliente.direccion()
-        print(fecha_compra, comprador, item, cant, precio_final, direccion)
+        """ Ejecuta el proceso de compra de un cliente. """
+
+
 
     def listar_clientes(self, lst):
         for producto in lst:
             pass
 
 
+def login(nombre):
+    print('{:-^60}'.format('Menú de ingreso. - ' + nombre))
+    email = input('Ingresa tu E-Mail: ')
+    psw = input('Ingresa tu clave: ')
+    return email, psw
+
 def print_menu(nombre):       # Your menu design here
-        print('{:-^60}'.format('Menú principal - ' + nombre))
-        print("1. Tienda ")
-        print("2. Historial de compras ")
-        print("3. Salir ")
-        print(60 * "-")
+    print('{:-^60}'.format('Menú principal. - ' + nombre))
+    print("A. Tienda ")
+    print("B. Historial de compras ")
+    print("C. Salir ")
+    print(60 * "-")
 
 def print_menu_tienda(nombre, items):       # Your menu design here
-        print('{:-^60}'.format('Tienda - ' + nombre))
-        print('{:>3} {:<33} {:<40.40} {:^9} {:>20} {:>10} {:>4}'.format('ID', 'Producto', 'Descripcion', 'Precio', 'Categoria', 'Marca', 'Cant'))
-        for item in items:
-            temp = [
-                item.get_id(),
-                item.get_nombre(),
-                item.get_descripcion(),
-                item.get_precio(),
-                item.get_categoria(),
-                item.get_marca(),
-                item.get_cantidad(),
-            ]
-            print('{:>3} {:<33} {:<40.40} {:>09,.2f} {:>20} {:>10} {:>4d}'.format(item.get_id(), item.get_nombre(), item.get_descripcion(), item.get_precio(), item.get_categoria(), item.get_marca(), item.get_cantidad()))
-        print(60 * "-")
-        print("1. Buscar por nombre")
-        print("2. Buscar por categoria ")
-        print("3. Carrito de compras ")
-        print("4. Regresar ")
-        print(60 * "-")
+    print('{:-^60}'.format('Catálogo. - ' + nombre))
+    print('{:>3} {:<33} {:<40.40} {:^9} {:>20} {:>10} {:>4}'.format('ID', 'Producto', 'Descripcion', 'Precio', 'Categoria', 'Marca', 'Cant'))
+    for item in items:
+        print('{:>3} {:<33} {:<40.40} {:>09,.2f} {:>20} {:>10} {:>4d}'.format(*item))
+    print(60 * "-")
+    print('Selecciona el numero del producto y despues la opcion.')
+    print("A. Comprar.")
+    print("B. Cancelar la selección ")
+    print("C. Regresar ")
+    print(60 * "-")
 
 def print_menu_carrito(nombre):       # Your menu design here
-        print('{:-^60}'.format('Carrito de compras - ' + nombre))
-        print("1. Buscar por nombre")
-        print("2. Buscar por categoria ")
-        print("3. Carrito de compras ")
-        print("4. Regresar ")
-        print(60 * "-")
+    print('{:-^60}'.format('Carrito de compras - ' + nombre))
+    print("1. Buscar por nombre")
+    print("2. Buscar por categoria ")
+    print("3. Carrito de compras ")
+    print("4. Regresar ")
+    print(60 * "-")
 
 
 
 if __name__ == "__main__":
-    db = Database()
+    datab = Database()
     mi_tienda = Ecommerce("Mercado Caro")
-    print_menu(mi_tienda.get_nombre())
-    #i = db.consultar_lista_productos()
-    #mi_tienda.set_lst_productos(i)
-    print_menu_tienda(mi_tienda.get_nombre(), mi_tienda.lista_productos)
-    # while True:
-    #     respuesta = input('Ingresa tu opción: ')
-    #     if respuesta == '1':
-    #         print_menu_tienda()
+    credenciales = login(mi_tienda.get_nombre())
+    if datab.validar_usuario(credenciales):
+        while True:
+            print_menu(mi_tienda.get_nombre())
+            opcion = input('')
+            
+            print_menu_tienda(mi_tienda.get_nombre(), datab.consultar_lista_productos())
+            # while True:
+            #     respuesta = input('Ingresa tu opción: ')
+            #     if respuesta == '1':
+            #         print_menu_tienda()
+    else:
+        print("Usuario o clave incorrectos.")
     

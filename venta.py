@@ -1,7 +1,7 @@
 # Proyecto final del recorrido del programador
 import datetime
-from db import Database
-from producto import Producto
+#from db import Database
+#from producto import Producto
 
 class Venta():
     """ Modulo para controlar los productos que se venden, las cantidades y los usuarios que los adquieren. """
