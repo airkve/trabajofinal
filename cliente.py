@@ -7,18 +7,25 @@ from usuario import Usuario
 class Cliente(Usuario):
     """ Modulo que define los atributos y metodos del cliente. """
 
-    def __init__(self, dni, nombre, apellido, email, telefono, clave, direccion, altura, cod_postal, ciudad, prov, pais):
+    def __init__(self, user_id, dni, nombre, apellido, email, telefono, clave, direccion, ciudad):
         Usuario.__init__(self, email, nombre, apellido, clave)
+        self.user_id = user_id
         self.dni = dni
         self.telefono = telefono
-        self.direccion = direccion + ' ' + str(altura) + ' ' + str(cod_postal)
-        self.altura = altura
-        self.cod_postal = cod_postal
+        self.direccion = direccion
+        #self.altura = altura
+        #self.cod_postal = cod_postal
         self.ciudad = ciudad
-        self.provincia = prov
-        self.pais = pais
+        #self.provincia = prov
+        #self.pais = pais
         self.historial_compras = []
 
+    def set_user_id(self, userid):
+        self.user_id = userid
+    
+    def get_user_id(self):
+        return self.user_id
+    
     def set_dni(self, dni):
         self.dni = dni
     

@@ -53,13 +53,13 @@ def print_menu(nombre):       # Your menu design here
     print("C. Salir ")
     print(60 * "-")
 
-def print_menu_tienda(nombre, items):       # Your menu design here
+def print_catalogo(nombre, items):       # Your menu design here
     print('{:-^60}'.format('Catálogo. - ' + nombre))
     print('{:>3} {:<33} {:<40.40} {:^9} {:>20} {:>10} {:>4}'.format('ID', 'Producto', 'Descripcion', 'Precio', 'Categoria', 'Marca', 'Cant'))
     for item in items:
         print('{:>3} {:<33} {:<40.40} {:>09,.2f} {:>20} {:>10} {:>4d}'.format(*item))
     print(60 * "-")
-    print('Selecciona el numero del producto y despues la opcion.')
+    print('Selecciona el numero del producto, la cantidad y despues la opción que corresponda.')
     print("A. Comprar.")
     print("B. Cancelar la selección ")
     print("C. Regresar ")
@@ -78,13 +78,27 @@ def print_menu_carrito(nombre):       # Your menu design here
 if __name__ == "__main__":
     datab = Database()
     mi_tienda = Ecommerce("Mercado Caro")
-    credenciales = login(mi_tienda.get_nombre())
+    mc = mi_tienda.get_nombre()
+    catalogo = datab.consultar_lista_productos()
+    credenciales = login(mc)
     if datab.validar_usuario(credenciales):
+        user_from_db = datab.consultar_usuario_por_email(credenciales[0])
+        usuario = Cliente(*user_from_db)
         while True:
-            print_menu(mi_tienda.get_nombre())
-            opcion = input('')
+            print_menu(mc)
+            opcion = input('>')
+            if opcion.lower() == 'a':
+                print_catalogo(mc, catalogo)
+                item = input('Producto ID: ')
+                cant = int(input('Cantidad: '))
+                seguro = input('Deseas realizar la compra? S/N: ')
+                get_producto = datab.consultar_producto_id(item)
+                producto_seleccionado = Producto(*get_producto)
+                datos_compra = (usuario.get_user_id(), mi_tienda.fecha_hoy, item, cant, )
+            elif opcion.lower() == 'b':
+                print(datab.consultar_compras(usuario))
             
-            print_menu_tienda(mi_tienda.get_nombre(), datab.consultar_lista_productos())
+            #print_menu_tienda(mi_tienda.get_nombre(), datab.consultar_lista_productos())
             # while True:
             #     respuesta = input('Ingresa tu opción: ')
             #     if respuesta == '1':

@@ -68,7 +68,7 @@ class Database():
         """ Busca a un usuario en la db por su email. """
 
         try:
-            self.cursor.execute(queries['get_user_by_email'], (usuario.get_email(),))
+            self.cursor.execute(queries['get_user_by_email'], (usuario,))
         except Error as e:
             print('No existe alguien con ese E-Mail.', e)
         else:
@@ -164,7 +164,7 @@ class Database():
 
     def consultar_producto_id(self, producto):
         try:
-            self.cursor.execute(queries['get_product_by_id'], (producto.get_id(),))
+            self.cursor.execute(queries['get_product_by_id'], (producto,))
         except Error as e:
             print('No se encontró el producto.', e)
         else:
@@ -184,24 +184,23 @@ class Database():
             consulta = self.cursor.fetchall()
             return consulta
 
-    def crear_compra(self, cliente, compras):
+    def crear_compra(self, cliente, fecha, producto, cantidad, precio):
         """ Registra las compras del cliente en la DB. """
 
-        user_id = self.consultar_usuario_por_email(cliente.get_email())
         try:
-            self.cursor.execute(queries['new_shoping'], (compras))
-            self.cursor.execute(queries['mod_product_cant'], (compras.get_cantidad()))
+            self.cursor.execute(queries['new_shoping'], (cliente.get_user_id(), fecha, producto.get_id(), cantidad, precio))
+            self.cursor.execute(queries['mod_product_cant'], (producto.get_cantidad() - cantidad,))
         except Error as e:
-            print("Error al consultar el historico", e)
+            print("Error al guardar los datos de la compra.", e)
         else:
             #guarda la consulta en una variable
-            consulta = self.cursor.fetchall()
+            consulta = self.conexion.commit()
 
     def consultar_compras(self, cliente):
         """ Busca el historial de compras del usuario en ls DB. """
 
         try:
-            self.cursor.execute(queries['get_user_shop_history'], (cliente.get_dni(),))
+            self.cursor.execute(queries['get_user_shop_history'], (cliente.get_email(),))
         except Error as e:
             print("Error al consultar el historico", e)
         else:
@@ -211,8 +210,11 @@ class Database():
         
 
 
-# prueba = Database()
-# print(prueba.consultar_lista_productos())
+prueba = Database()
+martina = prueba.consultar_usuario_por_email('martg@gmail.com')
+cliente1 = Cliente(*martina)
+result = prueba.consultar_compras(cliente1)
+print(result)
 # ric = Cliente(
 #     95806829,
 #     'Richard',
