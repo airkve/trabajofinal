@@ -1,13 +1,19 @@
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-CREATE DATABASE IF NOT EXISTS `ecommerce`;
+CREATE DATABASE IF NOT EXISTS `ecommerce` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `ecommerce`;
 
 CREATE TABLE IF NOT EXISTS `categorias` (
   `categoria_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   PRIMARY KEY (`categoria_id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
+/*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
 INSERT INTO `categorias` (`categoria_id`, `nombre`) VALUES
 	(1, 'Calzado y zapatillas'),
 	(2, 'Remeras'),
@@ -24,15 +30,18 @@ INSERT INTO `categorias` (`categoria_id`, `nombre`) VALUES
 	(13, 'Video'),
 	(14, 'Cuidado Personal'),
 	(15, 'Otros');
+/*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `ciudades` (
   `ciudad_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
   `provincia_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`ciudad_id`),
-  FOREIGN KEY (`provincia_id`) REFERENCES `provincias` (`provincia_id`)
-);
+  KEY `provincia_id` (`provincia_id`),
+  CONSTRAINT `ciudades_ibfk_1` FOREIGN KEY (`provincia_id`) REFERENCES `provincias` (`provincia_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
+/*!40000 ALTER TABLE `ciudades` DISABLE KEYS */;
 INSERT INTO `ciudades` (`ciudad_id`, `nombre`, `provincia_id`) VALUES
 	(1, 'Ciudad Autonoma de Buenos Aires', 1),
 	(2, 'La Plata', 3),
@@ -51,6 +60,7 @@ INSERT INTO `ciudades` (`ciudad_id`, `nombre`, `provincia_id`) VALUES
 	(15, 'Sucre', 28),
 	(16, 'Montevideo', 29),
 	(17, 'Asunción', 30);
+/*!40000 ALTER TABLE `ciudades` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `compras` (
   `compra_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -60,10 +70,13 @@ CREATE TABLE IF NOT EXISTS `compras` (
   `cantidad` smallint(4) NOT NULL,
   `precio_total` float NOT NULL,
   PRIMARY KEY (`compra_id`),
-  FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`),
-  FOREIGN KEY (`producto_id`) REFERENCES `productos` (`producto_id`)
-);
+  KEY `usuario_id` (`usuario_id`),
+  KEY `producto_id` (`producto_id`),
+  CONSTRAINT `compras_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`),
+  CONSTRAINT `compras_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`producto_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
+/*!40000 ALTER TABLE `compras` DISABLE KEYS */;
 INSERT INTO `compras` (`compra_id`, `fecha_compra`, `usuario_id`, `producto_id`, `cantidad`, `precio_total`) VALUES
 	(1, '2017-08-24 11:24:01', 1, 1, 1, 5500),
 	(2, '2018-01-07 01:52:50', 3, 1, 1, 5500),
@@ -81,13 +94,15 @@ INSERT INTO `compras` (`compra_id`, `fecha_compra`, `usuario_id`, `producto_id`,
 	(14, '2019-10-29 23:13:05', 12, 13, 1, 25000),
 	(15, '2019-10-29 23:15:16', 12, 13, 1, 25000),
 	(16, '2019-10-29 23:16:38', 12, 13, 1, 25000);
+/*!40000 ALTER TABLE `compras` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `marcas` (
   `marca_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   PRIMARY KEY (`marca_id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
+/*!40000 ALTER TABLE `marcas` DISABLE KEYS */;
 INSERT INTO `marcas` (`marca_id`, `nombre`) VALUES
 	(1, 'Adidas'),
 	(2, 'Nike'),
@@ -110,14 +125,16 @@ INSERT INTO `marcas` (`marca_id`, `nombre`) VALUES
 	(19, 'Electrolux'),
 	(20, 'Hisense'),
 	(21, 'Sony');
+/*!40000 ALTER TABLE `marcas` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `paises` (
   `pais_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) NOT NULL,
   `pais_cod` varchar(255) NOT NULL,
   PRIMARY KEY (`pais_id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=latin1;
 
+/*!40000 ALTER TABLE `paises` DISABLE KEYS */;
 INSERT INTO `paises` (`pais_id`, `nombre`, `pais_cod`) VALUES
 	(1, 'Afghanistan', 'AF'),
 	(2, 'Åland', 'AX'),
@@ -369,6 +386,7 @@ INSERT INTO `paises` (`pais_id`, `nombre`, `pais_cod`) VALUES
 	(248, 'Yemen', 'YE'),
 	(249, 'Zambia', 'ZM'),
 	(250, 'Zimbabwe', 'ZW');
+/*!40000 ALTER TABLE `paises` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `productos` (
   `producto_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -379,10 +397,13 @@ CREATE TABLE IF NOT EXISTS `productos` (
   `marca_id` int(11) DEFAULT NULL,
   `cantidad` smallint(6) NOT NULL,
   PRIMARY KEY (`producto_id`),
-  FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`categoria_id`),
-  FOREIGN KEY (`marca_id`) REFERENCES `marcas` (`marca_id`)
-);
+  KEY `categoria_id` (`categoria_id`),
+  KEY `marca_id` (`marca_id`),
+  CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`categoria_id`),
+  CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`marca_id`) REFERENCES `marcas` (`marca_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
+/*!40000 ALTER TABLE `productos` DISABLE KEYS */;
 INSERT INTO `productos` (`producto_id`, `nombre`, `descripcion`, `precio`, `categoria_id`, `marca_id`, `cantidad`) VALUES
 	(1, 'Zapatillas runner', 'Zapatillas runner', 5500, 1, 1, 20),
 	(2, 'Zapatillas tennis', 'Zapatillas tenis', 3600, 1, 1, 19),
@@ -405,15 +426,18 @@ INSERT INTO `productos` (`producto_id`, `nombre`, `descripcion`, `precio`, `cate
 	(19, 'Auriculares SN4309', 'Auriculares polifonicos con microfono incorporado', 1100, 12, 21, 4),
 	(20, 'Licuadora Smartchef', 'Licuadora de 400W con 3 velocidades y vaso de vidrio', 1100, 10, 18, 3),
 	(21, 'Nevera D60350NX', 'Heladera color plata, no frost, bajo consumo electrico', 1100, 10, 17, 2);
+/*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `provincias` (
   `provincia_id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
   `pais_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`provincia_id`),
-  FOREIGN KEY (`pais_id`) REFERENCES `paises` (`pais_id`)
-);
+  KEY `pais_id` (`pais_id`),
+  CONSTRAINT `provincias_ibfk_1` FOREIGN KEY (`pais_id`) REFERENCES `paises` (`pais_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
+/*!40000 ALTER TABLE `provincias` DISABLE KEYS */;
 INSERT INTO `provincias` (`provincia_id`, `nombre`, `pais_id`) VALUES
 	(1, 'Buenos Aires', 11),
 	(2, 'Catamarca', 11),
@@ -445,6 +469,7 @@ INSERT INTO `provincias` (`provincia_id`, `nombre`, `pais_id`) VALUES
 	(28, 'Chuquisaca', 27),
 	(29, 'Montevideo', 240),
 	(30, 'Distrito Capital', 173);
+/*!40000 ALTER TABLE `provincias` ENABLE KEYS */;
 
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `usuario_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -457,9 +482,11 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `direccion` varchar(200) NOT NULL,
   `ciudad_id` int(11) NOT NULL,
   PRIMARY KEY (`usuario_id`),
-  FOREIGN KEY (`ciudad_id`) REFERENCES `ciudades` (`ciudad_id`)
-);
+  KEY `ciudad_id` (`ciudad_id`),
+  CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`ciudad_id`) REFERENCES `ciudades` (`ciudad_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
 INSERT INTO `usuarios` (`usuario_id`, `dni`, `nombre`, `apellido`, `clave`, `email`, `telefono`, `direccion`, `ciudad_id`) VALUES
 	(1, 39100420, 'Martina', 'Gutierrez', 'gatonegro', 'martg@gmail.com', '1554584969', 'Malaver 876 cp4713', 3),
 	(2, 23049956, 'Federico', 'Gomez', 'picapiedra', 'fedgom@hotmail.com', '1569599739', 'General Pueyrredon 1564 cp3421', 2),
@@ -471,4 +498,9 @@ INSERT INTO `usuarios` (`usuario_id`, `dni`, `nombre`, `apellido`, `clave`, `ema
 	(8, 38123443, 'Javier', 'Martin', 'elefante9', 'javi94@gmail.com', '2334221332', 'Juan Domingo Peron 4222 cp1213', 7),
 	(9, 11554223, 'Analía', 'Mena', 'juisgi', 'anime01@hotmail.com', '244884663', 'Santa Fe 366 cp1313', 6),
 	(10, 42154468, 'Sebastian', 'Castillo', 'gnr2013', 'sebcasti@hotmail.com', '322455646', 'Aconcagua 2020 cp1354', 5),
-	(12, 95806829, 'Richard', 'Jimenez', '123456', 'ricjim@gmail.com', '1131592009', 'Jeronimo Salguero 1964 1425', 1);
+	(12, 95806829, 'Richard', 'Jimenez', 'asfñkj', 'ricjim@gmail.com', '1131592009', 'Jeronimo Salguero 1964 1425', 1);
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
