@@ -406,7 +406,7 @@ CREATE TABLE `productos` (
   FOREIGN KEY (`marca_id`) REFERENCES `marcas` (`marca_id`)
 );
 
-INSERT INTO `productos` (producto_id, nombre, descripcion, precio, categoria_id, marca_id)
+INSERT INTO `productos` (producto_id, nombre, descripcion, precio, categoria_id, marca_id, cantidad)
 VALUES (1,'Zapatillas runner',NULL,5500,1,1,9),
 	   (2,'Zapatillas tennis',NULL,3600,1,1,9),
        (3,'Camiseta Boca Juniors',NULL,1100,2,2,9),
