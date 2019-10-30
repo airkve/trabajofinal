@@ -30,7 +30,6 @@ CREATE TABLE IF NOT EXISTS `ciudades` (
   `nombre` varchar(100) NOT NULL,
   `provincia_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`ciudad_id`),
-  KEY `provincia_id` (`provincia_id`),
   FOREIGN KEY (`provincia_id`) REFERENCES `provincias` (`provincia_id`)
 );
 
@@ -61,8 +60,6 @@ CREATE TABLE IF NOT EXISTS `compras` (
   `cantidad` smallint(4) NOT NULL,
   `precio_total` float NOT NULL,
   PRIMARY KEY (`compra_id`),
-  KEY `usuario_id` (`usuario_id`),
-  KEY `producto_id` (`producto_id`),
   FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`),
   FOREIGN KEY (`producto_id`) REFERENCES `productos` (`producto_id`)
 );
@@ -382,8 +379,6 @@ CREATE TABLE IF NOT EXISTS `productos` (
   `marca_id` int(11) DEFAULT NULL,
   `cantidad` smallint(6) NOT NULL,
   PRIMARY KEY (`producto_id`),
-  KEY `categoria_id` (`categoria_id`),
-  KEY `marca_id` (`marca_id`),
   FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`categoria_id`),
   FOREIGN KEY (`marca_id`) REFERENCES `marcas` (`marca_id`)
 );
@@ -416,7 +411,6 @@ CREATE TABLE IF NOT EXISTS `provincias` (
   `nombre` varchar(100) NOT NULL,
   `pais_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`provincia_id`),
-  KEY `pais_id` (`pais_id`),
   FOREIGN KEY (`pais_id`) REFERENCES `paises` (`pais_id`)
 );
 
@@ -463,7 +457,6 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `direccion` varchar(200) NOT NULL,
   `ciudad_id` int(11) NOT NULL,
   PRIMARY KEY (`usuario_id`),
-  KEY `ciudad_id` (`ciudad_id`),
   FOREIGN KEY (`ciudad_id`) REFERENCES `ciudades` (`ciudad_id`)
 );
 
