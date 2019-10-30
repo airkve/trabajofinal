@@ -143,24 +143,24 @@ class Database():
         ]
         # inserta un producto en la base de datos
         try:
-            self.cursor.execute(queries['add_product'], item)
+            self.cursor.execute(queries['add_product'], producto)
         except Error as e:
             print('No existe producto con ese ID.')
         else:
             # registra los cambios a la base de datos
             self.conexion.commit()
     
-    def modificar_producto_cantidad(self, producto, cantidad):
+    def modificar_producto_cantidad(self, data):
         """ Modifica la cantidad de un producto en la DB. """
 
         try:
-            self.cursor.execute(queries['mod_product_cant'], (producto.get_id(), cantidad))
+            self.cursor.execute(queries['mod_product_cant'], (data))
         except Error as e:
             print('Ocurrió un problema al tratar de ejecutar la operación.', e)
         else:
             # registra los cambios a la base de datos
             self.conexion.commit()
-            print('Cambio exitoso {}.'.format(producto))
+            #print('Cambio exitoso {}.'.format(producto))
 
     def consultar_producto_id(self, producto):
         try:
@@ -184,17 +184,16 @@ class Database():
             consulta = self.cursor.fetchall()
             return consulta
 
-    def crear_compra(self, cliente, fecha, producto, cantidad, precio):
+    def crear_compra(self, shop_data):
         """ Registra las compras del cliente en la DB. """
 
         try:
-            self.cursor.execute(queries['new_shoping'], (cliente.get_user_id(), fecha, producto.get_id(), cantidad, precio))
-            self.cursor.execute(queries['mod_product_cant'], (producto.get_cantidad() - cantidad,))
+            self.cursor.execute(queries['new_shopping'], shop_data)
         except Error as e:
             print("Error al guardar los datos de la compra.", e)
         else:
             #guarda la consulta en una variable
-            consulta = self.conexion.commit()
+            self.conexion.commit()
 
     def consultar_compras(self, cliente):
         """ Busca el historial de compras del usuario en ls DB. """
@@ -210,11 +209,13 @@ class Database():
         
 
 
-prueba = Database()
-martina = prueba.consultar_usuario_por_email('martg@gmail.com')
-cliente1 = Cliente(*martina)
-result = prueba.consultar_compras(cliente1)
-print(result)
+# prueba = Database()
+# item = (12, '2019-10-29 22:54:17', 13, 1, 25000)
+# prueba.crear_compra(item)
+# martina = prueba.consultar_usuario_por_email('martg@gmail.com')
+# cliente1 = Cliente(*martina)
+# result = prueba.consultar_compras(cliente1)
+# print(result)
 # ric = Cliente(
 #     95806829,
 #     'Richard',

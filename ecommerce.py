@@ -19,21 +19,39 @@ class Ecommerce():
     def get_nombre(self):
         return self.nombre
 
-    def set_lst_clientes(self, clientes):
-        for cliente in clientes:
-            self.lista_clientes.append(list(Cliente(*cliente)))
+    def get_cliente(self, credenciales):
+        cliente = self.db.consultar_usuario_por_email(credenciales)
+        return Cliente(*cliente)
 
-    def set_lst_productos(self, productos):
-        for producto in productos:
-            self.lista_productos.append(list(Producto(*producto)))
+    def buscar_producto(self, producto_id):
+        for producto in self.lista_productos:
+            if producto_id == str(producto[0]):
+                return Producto(*producto)
 
-    def carrito_de_compras(self):
-        productos_carrito = []
+    def buscar_compras_cliente(self, cliente):
+        compras = self.db.consultar_compras(cliente)
+        return compras
+
+    def carrito_de_compras(self, producto):
+        carrito = []
+        carrito.append(producto)
+        return carrito
 
     def venta(self, cliente, producto, cantidad):
         """ Ejecuta el proceso de compra de un cliente. """
 
-
+        nueva_cant = producto.get_cantidad() - cantidad
+        precio_total = producto.get_precio() * cantidad
+        data_de_compra = (cliente.get_user_id(), str(self.fecha_hoy), int(producto.get_id()), int(cantidad), float(precio_total))
+        data_de_cantidad = (nueva_cant, producto)
+        try:
+            self.db.crear_compra(data_de_compra)
+            self.db.modificar_producto_cantidad(data_de_cantidad)
+        except Error as e:
+            print('Ocurrió un error tratando de registrar la compra.', e)
+        else:
+            print('Operación exitosa.')
+        
 
     def listar_clientes(self, lst):
         for producto in lst:
@@ -76,14 +94,12 @@ def print_menu_carrito(nombre):       # Your menu design here
 
 
 if __name__ == "__main__":
-    datab = Database()
-    mi_tienda = Ecommerce("Mercado Caro")
-    mc = mi_tienda.get_nombre()
-    catalogo = datab.consultar_lista_productos()
-    credenciales = login(mc)
-    if datab.validar_usuario(credenciales):
-        user_from_db = datab.consultar_usuario_por_email(credenciales[0])
-        usuario = Cliente(*user_from_db)
+    mi_tienda = Ecommerce("Mercado Caro") # se instancia la tienda
+    mc = mi_tienda.get_nombre() # se guarda el nombre de la tienda
+    catalogo = mi_tienda.lista_productos # se crea una lista con los productos de la tienda
+    credenciales = login(mc) # se ejecuta la funcion para registrarse en el sistema
+    if mi_tienda.db.validar_usuario(credenciales): # se valida el usario con email y clave
+        cliente = mi_tienda.get_cliente(credenciales[0])
         while True:
             print_menu(mc)
             opcion = input('>')
@@ -91,14 +107,13 @@ if __name__ == "__main__":
                 print_catalogo(mc, catalogo)
                 item = input('Producto ID: ')
                 cant = int(input('Cantidad: '))
-                seguro = input('Deseas realizar la compra? S/N: ')
-                get_producto = datab.consultar_producto_id(item)
-                producto_seleccionado = Producto(*get_producto)
-                datos_compra = (usuario.get_user_id(), mi_tienda.fecha_hoy, item, cant, )
+                confirmacion = input('Deseas realizar la compra? S/N: ')
+                producto_seleccionado = mi_tienda.buscar_producto(item)
+                mi_tienda.venta(cliente, producto_seleccionado, cant)
             elif opcion.lower() == 'b':
-                print(datab.consultar_compras(usuario))
+                print(mi_tienda.buscar_compras_cliente(cliente))
             
-            #print_menu_tienda(mi_tienda.get_nombre(), datab.consultar_lista_productos())
+            #print_menu_tienda(mi_tienda.get_nombre(), db.consultar_lista_productos())
             # while True:
             #     respuesta = input('Ingresa tu opción: ')
             #     if respuesta == '1':
