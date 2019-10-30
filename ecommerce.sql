@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `ciudades` (
   `provincia_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`ciudad_id`),
   KEY `provincia_id` (`provincia_id`),
-  CONSTRAINT `ciudades_ibfk_1` FOREIGN KEY (`provincia_id`) REFERENCES `provincias` (`provincia_id`)
+  FOREIGN KEY (`provincia_id`) REFERENCES `provincias` (`provincia_id`)
 );
 
 INSERT INTO `ciudades` (`ciudad_id`, `nombre`, `provincia_id`) VALUES
@@ -63,8 +63,8 @@ CREATE TABLE IF NOT EXISTS `compras` (
   PRIMARY KEY (`compra_id`),
   KEY `usuario_id` (`usuario_id`),
   KEY `producto_id` (`producto_id`),
-  CONSTRAINT `compras_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`),
-  CONSTRAINT `compras_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`producto_id`)
+  FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`usuario_id`),
+  FOREIGN KEY (`producto_id`) REFERENCES `productos` (`producto_id`)
 );
 
 INSERT INTO `compras` (`compra_id`, `fecha_compra`, `usuario_id`, `producto_id`, `cantidad`, `precio_total`) VALUES
@@ -384,8 +384,8 @@ CREATE TABLE IF NOT EXISTS `productos` (
   PRIMARY KEY (`producto_id`),
   KEY `categoria_id` (`categoria_id`),
   KEY `marca_id` (`marca_id`),
-  CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`categoria_id`),
-  CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`marca_id`) REFERENCES `marcas` (`marca_id`)
+  FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`categoria_id`),
+  FOREIGN KEY (`marca_id`) REFERENCES `marcas` (`marca_id`)
 );
 
 INSERT INTO `productos` (`producto_id`, `nombre`, `descripcion`, `precio`, `categoria_id`, `marca_id`, `cantidad`) VALUES
@@ -417,7 +417,7 @@ CREATE TABLE IF NOT EXISTS `provincias` (
   `pais_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`provincia_id`),
   KEY `pais_id` (`pais_id`),
-  CONSTRAINT `provincias_ibfk_1` FOREIGN KEY (`pais_id`) REFERENCES `paises` (`pais_id`)
+  FOREIGN KEY (`pais_id`) REFERENCES `paises` (`pais_id`)
 );
 
 INSERT INTO `provincias` (`provincia_id`, `nombre`, `pais_id`) VALUES
@@ -464,7 +464,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `ciudad_id` int(11) NOT NULL,
   PRIMARY KEY (`usuario_id`),
   KEY `ciudad_id` (`ciudad_id`),
-  CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`ciudad_id`) REFERENCES `ciudades` (`ciudad_id`)
+  FOREIGN KEY (`ciudad_id`) REFERENCES `ciudades` (`ciudad_id`)
 );
 
 INSERT INTO `usuarios` (`usuario_id`, `dni`, `nombre`, `apellido`, `clave`, `email`, `telefono`, `direccion`, `ciudad_id`) VALUES
