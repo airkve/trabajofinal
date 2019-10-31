@@ -407,27 +407,27 @@ CREATE TABLE `productos` (
 );
 
 INSERT INTO `productos` (producto_id, nombre, descripcion, precio, categoria_id, marca_id, cantidad)
-VALUES (1,'Zapatillas runner',NULL,5500,1,1,9),
-	   (2,'Zapatillas tennis',NULL,3600,1,1,9),
-       (3,'Camiseta Boca Juniors',NULL,1100,2,2,9),
-       (4,'Camiseta River Plate',NULL,1100,2,1,9),
-       (5,'Zapatillas skateboard',NULL,3000,1,8,9),
-       (6,'Pelota de fútbol',NULL,1200,8,4,9),
-       (7,'Guantes de boxeo',NULL,1600,8,1,9),
-       (8,'Short deportivo',NULL,1100,3,2,9),
-       (9,'Campera Boca Junios',NULL,2200,4,2,9),
-       (10,'Campera Seleccion Argentina',NULL,2500,4,2,9),
-       (11,'iPhone X',NULL,65000,9,11,9),
-       (12,'Galaxy s10',NULL,54000,9,12,9),
-       (13,'Moto G6S Plus',NULL,25000,9,13,9),
-       (14,'Laptop Republic of Gamers GL551J',NULL,60000,11,14,9),
-       (15,'Laptop Satellite Pro C840',NULL,1100,11,16,9),
-       (16,'TV 55" S4638',NULL,1100,8,21,9),
-       (17,'TV 50" HLE5017',NULL,1100,8,20,9),
-       (18,'iPod nano',NULL,1100,12,11,9),
-       (19,'Auriculares SN4309',NULL,1100,12,21,9),
-       (20,'Licuadora Smartchef',NULL,1100,10,18,9),
-       (21,'Nevera D60350NX',NULL,1100,10,17,9);
+VALUES (1,'Zapatillas runner','Zapatillas Rojas con franjas negras',5500,1,1,9),
+	   (2,'Zapatillas tennis','Zapatillas Rosas con gris',3600,1,1,9),
+       (3,'Camiseta Boca Juniors','Camiseta con los colores y logo del Boca Juniors',1100,2,2,9),
+       (4,'Camiseta River Plate','Camiseta de algodon',1100,2,1,9),
+       (5,'Zapatillas skateboard','Zapatillas negras para montar patineta',3000,1,8,9),
+       (6,'Pelota de fútbol','Pelota de fútbol del Mundial 2018',1200,8,4,9),
+       (7,'Guantes de boxeo','Guantes rojos de Boxeo',1600,8,1,9),
+       (8,'Short deportivo','Shorts deportivo de dryfit',1100,3,2,9),
+       (9,'Campera Boca Junios','Campera con los colores y el logo de Boca Juniors',2200,4,2,9),
+       (10,'Campera Seleccion Argentina','Campera con el logo y los colores de la selección Argentina',2500,4,2,9),
+       (11,'iPhone X','Telefono inteligente de Apple',65000,9,11,9),
+       (12,'Galaxy s10','Telefono inteligente de Samsung',54000,9,12,9),
+       (13,'Moto G6S Plus','Telefono inteligente de Motorolla',25000,9,13,9),
+       (14,'Laptop Republic of Gamers GL551J','Laptop con 16gb de Ram, pantalla de 17", HDD de 1tb, Nvidia 860m y teclado ilumidado',60000,11,14,9),
+       (15,'Laptop Satellite Pro C840','Laptop para oficina Toshiba, Ram 4gb, HDD 500gb, patalla 15"',1100,11,16,9),
+       (16,'TV 55" S4638','Televisor de 55 pulgadas 4K',1100,8,21,9),
+       (17,'TV 50" HLE5017','Televisor de 50 pulgadas, UltraHD, 4K',1100,8,20,9),
+       (18,'iPod nano','Reproducto de musica digital',1100,12,11,9),
+       (19,'Auriculares SN4309','Auriculares polifonicos con microfono incorporado',1100,12,21,9),
+       (20,'Licuadora Smartchef','Licuadora de 400W con 3 velocidades y vaso de vidrio',1100,10,18,9),
+       (21,'Nevera D60350NX','Heladera color plata, no frost, bajo consumo electrico',1100,10,17,9);
 
 
 
