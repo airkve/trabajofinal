@@ -65,8 +65,3 @@ class Cliente(Usuario):
         return self.ciudad
 
 
-    
-#richard = list(Database().consultar_cliente(1))
-#ric = Cliente(*richard)
-#ric.get_user(5)
-#print(ric.get_apellido())

@@ -32,16 +32,3 @@ class Usuario():
 
     def set_clave(self, clave):
         pass
-
-    def login(self, email, clave):
-        """ Metodo para registrarse en el sistema. """
-        usuario = None
-        if usuario:
-            return True
-        else:
-            return False
-    
-    def get_user(self, usuario_id):
-        result = None
-        print(result)
-        return result

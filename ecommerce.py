@@ -77,10 +77,8 @@ def print_catalogo(nombre, items):       # Your menu design here
     for item in items:
         print('{:>3} {:<33} {:<40.40} {:>09,.2f} {:>20} {:>10} {:>4d}'.format(*item))
     print(60 * "-")
-    print('Selecciona el numero del producto, la cantidad y despues la opción que corresponda.')
     print("A. Comprar.")
-    print("B. Cancelar la selección ")
-    print("C. Regresar ")
+    print("B. Regresar ")
     print(60 * "-")
 
 def print_menu_carrito(nombre):       # Your menu design here
@@ -105,11 +103,19 @@ if __name__ == "__main__":
             opcion = input('>')
             if opcion.lower() == 'a':
                 print_catalogo(mc, catalogo)
-                item = input('Producto ID: ')
-                cant = int(input('Cantidad: '))
-                confirmacion = input('Deseas realizar la compra? S/N: ')
-                producto_seleccionado = mi_tienda.buscar_producto(item)
-                mi_tienda.venta(cliente, producto_seleccionado, cant)
+                compra = input('>')
+                if compra.lower() == 'a':
+                    item = input('Ingresa el ID del producto: ')
+                    cant = int(input('Cantidad: '))
+                    confirmacion = input('Deseas realizar la compra? S/N: ')
+                    if confirmacion.lower() == 's':
+                        producto_seleccionado = mi_tienda.buscar_producto(item)
+                        mi_tienda.venta(cliente, producto_seleccionado, cant)
+                    else:
+                        print_catalogo(mc, catalogo)
+                elif compra.lower() == 'b':
+                    print('Hasta luego.')
+                    break
             elif opcion.lower() == 'b':
                 print(mi_tienda.buscar_compras_cliente(cliente))
             elif opcion.lower() == 'c':
