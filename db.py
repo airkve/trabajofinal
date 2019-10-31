@@ -154,7 +154,7 @@ class Database():
         """ Modifica la cantidad de un producto en la DB. """
 
         try:
-            self.cursor.execute(queries['mod_product_cant'], (data))
+            self.cursor.execute(queries['mod_product_cant'], data)
         except Error as e:
             print('Ocurrió un problema al tratar de ejecutar la operación.', e)
         else:
@@ -210,6 +210,7 @@ class Database():
 
 
 # prueba = Database()
+# data = (5, 18)
 # item = (12, '2019-10-29 22:54:17', 13, 1, 25000)
 # prueba.crear_compra(item)
 # martina = prueba.consultar_usuario_por_email('martg@gmail.com')
@@ -217,18 +218,16 @@ class Database():
 # result = prueba.consultar_compras(cliente1)
 # print(result)
 # ric = Cliente(
+#     12,
 #     95806829,
 #     'Richard',
 #     'Jimenez',
 #     'ricjim@gmail.com',
 #     1131592009,
 #     'asfñkj',
-#     'Jeronimo Salguero',
-#     1964,
-#     1425, 
-#     1, 
-#     1, 
-#     11)
+#     'Jeronimo Salguero 1964 cp1425', 
+#     1)
+# print(prueba.consultar_compras(ric))
 # item = prueba.consultar_producto_id(13)
 # print(item)
 # tele = Producto(*item)
@@ -237,7 +236,7 @@ class Database():
 # tele.set_cantidad(tele.get_cantidad() - 1)
 # datos = (tele.get_id(), tele.get_cantidad())
 # prueba.modificar_producto_cantidad(datos)
-#prueba.modificar_producto_cantidad()
+# prueba.modificar_producto_cantidad(data)
 #prueba.crear_usuario(ric)
 #query_table = ('usuarios',)
 #prueba.eliminar_usuario(ric)

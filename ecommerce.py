@@ -28,8 +28,8 @@ class Ecommerce():
             if producto_id == str(producto[0]):
                 return Producto(*producto)
 
-    def buscar_compras_cliente(self, cliente):
-        compras = self.db.consultar_compras(cliente)
+    def buscar_compras_cliente(self, comprador):
+        compras = self.db.consultar_compras(comprador)
         return compras
 
     def carrito_de_compras(self, producto):
@@ -43,7 +43,7 @@ class Ecommerce():
         nueva_cant = producto.get_cantidad() - cantidad
         precio_total = producto.get_precio() * cantidad
         data_de_compra = (cliente.get_user_id(), str(self.fecha_hoy), int(producto.get_id()), int(cantidad), float(precio_total))
-        data_de_cantidad = (nueva_cant, producto)
+        data_de_cantidad = (nueva_cant, producto.get_id())
         try:
             self.db.crear_compra(data_de_compra)
             self.db.modificar_producto_cantidad(data_de_cantidad)
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     catalogo = mi_tienda.lista_productos # se crea una lista con los productos de la tienda
     credenciales = login(mc) # se ejecuta la funcion para registrarse en el sistema
     if mi_tienda.db.validar_usuario(credenciales): # se valida el usario con email y clave
-        cliente = mi_tienda.get_cliente(credenciales[0])
+        cliente = mi_tienda.get_cliente(credenciales[0]) # guarda el cliente en una variable
         while True:
             print_menu(mc)
             opcion = input('>')
@@ -112,6 +112,8 @@ if __name__ == "__main__":
                 mi_tienda.venta(cliente, producto_seleccionado, cant)
             elif opcion.lower() == 'b':
                 print(mi_tienda.buscar_compras_cliente(cliente))
+            elif opcion.lower() == 'c':
+                break
             
             #print_menu_tienda(mi_tienda.get_nombre(), db.consultar_lista_productos())
             # while True:
